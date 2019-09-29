@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import ReactDOM from 'react-dom'
-import { tsPropertySignature } from '@babel/types'
+
 
 const Header = () => <h1>give feedback</h1>
 const Button = (props) => (
@@ -13,7 +13,7 @@ const Stats = () => <h1>statistics</h1>
 const Statistic = (props) => {
     return (
         <>
-        <p>{props.text} {props.value}</p> 
+        <tr><td>{props.text}</td><td>{props.value}</td></tr> 
         </>
     )
 }
@@ -27,14 +27,16 @@ const Statistics = (props) => {
         )
     }
     return(
-        <>
+    <table>
+        <tbody>
     <Statistic text="good" value={props.good} />
     <Statistic text="neutral" value={props.neutral} />
     <Statistic text="bad" value={props.bad} />
     <Statistic text="all" value={props.all} />
     <Statistic text="average" value={props.average} />
     <Statistic text="positive" value={props.positive} />
-    </>
+    </tbody>
+    </table>
     )
 }
 
