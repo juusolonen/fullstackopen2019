@@ -3,21 +3,29 @@ import ReactDOM from 'react-dom'
 
 const App = (props) => {
   const [selected, setSelected] = useState(0)
+  const [testi, setTesti] = useState(Array.apply(null, {length: 6}).map(function() {return 0;}))
+  const vote = () => {
+    const copy = [...testi]
+    copy[selected] += 1
+    setTesti(copy)
+    }
 
   return (
     <div>
       {props.anecdotes[selected]}
+      <p>has {testi[selected]} votes</p>
       
     <br/>
       
-      <Button nextAnecdote={() => setSelected(Math.floor(Math.random() * 6)) } />
+      <Button onclick={() => setSelected(Math.floor(Math.random() * 6)) } text="next anecdote" />
+      <Button onclick={() => vote()} text="vote" />
     
     </div>
     
   )
 }
 
-const anecdotes = [
+const anecdotes= [
   'If it hurts, do it more often',
   'Adding manpower to a late software project makes it later!',
   'The first 90 percent of the code accounts for the first 90 percent of the development time...The remaining 10 percent of the code accounts for the other 90 percent of the development time.',
@@ -26,10 +34,15 @@ const anecdotes = [
   'Debugging is twice as hard as writing the code in the first place. Therefore, if you write the code as cleverly as possible, you are, by definition, not smart enough to debug it.'
 ]
 
+
+
+
+
+
 const Button = (props) => (
     <>
-    <button onClick={props.nextAnecdote}>
-        next anecdote
+    <button onClick={props.onclick}>
+        {props.text}
     </button>
     </>
 )
@@ -37,6 +50,6 @@ const Button = (props) => (
 
 
 ReactDOM.render(
-  <App anecdotes={anecdotes} />,
+  <App anecdotes={anecdotes}/>,
   document.getElementById('root')
 )
