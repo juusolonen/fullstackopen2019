@@ -4,14 +4,38 @@ import ReactDOM from 'react-dom'
 const App = (props) => {
   const [selected, setSelected] = useState(0)
   const [testi, setTesti] = useState(Array.apply(null, {length: 6}).map(function() {return 0;}))
+  const [counter, setCounter] = useState(0)
+  const [most, setMost] = useState(0)
+
   const vote = () => {
+    setCounter(counter + 1)
     const copy = [...testi]
     copy[selected] += 1
     setTesti(copy)
+
+    if(testi[selected] > most) {
+      setMost(selected)
+    }
+    }
+
+    const MostVotes = (props) => {
+      if(counter < 1) {
+      return(<div>
+        No votes have been given yet
+        </div>
+      )
+      }else{
+        return(
+        <div>
+          <h1>Anecdote with most votes</h1>
+          <p>{props.anecdotes[most]}</p>
+        </div>)
+      }
     }
 
   return (
     <div>
+      <h1>Anecdote of the day</h1><br/>
       {props.anecdotes[selected]}
       <p>has {testi[selected]} votes</p>
       
@@ -19,8 +43,13 @@ const App = (props) => {
       
       <Button onclick={() => setSelected(Math.floor(Math.random() * 6)) } text="next anecdote" />
       <Button onclick={() => vote()} text="vote" />
+      <MostVotes anecdotes = {anecdotes} />
+    
     
     </div>
+    
+    
+    
     
   )
 }
@@ -40,12 +69,15 @@ const anecdotes= [
 
 
 const Button = (props) => (
+    
     <>
     <button onClick={props.onclick}>
         {props.text}
     </button>
     </>
 )
+
+
     
 
 
