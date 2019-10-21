@@ -3,16 +3,7 @@ import ReactDOM from 'react-dom';
 import Course from './components/Course'
 
 
-/*
-const Total = (props) => {
-    console.log("This comes from Total " + props.parts[0].exercises)
-    return(
-    <>
-    <p>Number of exercises {props.parts[0].exercises + props.parts[1].exercises + props.parts[2].exercises}</p>
-    </>
-    )
-}
-*/
+
 const App = () => {
     const course = {
     name:    'Half Stack application development',
