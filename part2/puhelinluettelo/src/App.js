@@ -24,7 +24,7 @@ const App = () => {
       <h2>Phonebook</h2>
       <form onSubmit={addNew}>
         <div>
-          name: <input onChange={handleNewName} />
+          name: <input onChange={handleNewName} value={newName} />
         </div>
         <div>
           <button type="submit">add</button>
