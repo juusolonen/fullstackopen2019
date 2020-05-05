@@ -1,1 +1,1 @@
-This is a repository to upload exercises from MOOC https://fullstackopen.com/en/
+This is a repository to upload exercises from MOOC https://fullstackopen.com/
