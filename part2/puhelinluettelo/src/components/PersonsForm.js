@@ -1,6 +1,6 @@
 import React from 'react'
 
-const PersonsForm = ({persons, newName, setNewName, newNumber, setNewNumber, setPersons, setFilteredPersons}) => {
+const PersonsForm = ({persons, newName, setNewName, newNumber, setNewNumber, setPersons}) => {
 
     const handleNewName = (event) => {
         setNewName(event.target.value)
@@ -26,7 +26,6 @@ const PersonsForm = ({persons, newName, setNewName, newNumber, setNewNumber, set
           setNewNumber('');
         }else {
           setPersons(persons.concat(newPerson));
-          setFilteredPersons(persons.concat(newPerson));
           setNewName('');
           setNewNumber('');
         }

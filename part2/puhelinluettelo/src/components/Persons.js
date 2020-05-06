@@ -1,8 +1,8 @@
 import React from 'react'
 
-const Persons = ({filteredPersons}) => {
+const Persons = ({persons}) => {
 return(
-    filteredPersons.map(person => 
+    persons.map(person => 
         <p key={person.name}>{person.name} {person.number}</p>)
 )
 }
