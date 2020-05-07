@@ -15,7 +15,7 @@ const Found = ({found}) => {
                     )
             } 
 
-        else if (found.length == 1) {
+        else if (found.length === 1) {
                 return (
                     <div>
                     <div>
@@ -30,7 +30,7 @@ const Found = ({found}) => {
                         </ul>          
                 </div>
                 <div>
-                    <img src={found[0].flag} width="50px"/>
+                    <img src={found[0].flag} width="50px" alt="flag"/>
                 </div>
             </div>
                 )
