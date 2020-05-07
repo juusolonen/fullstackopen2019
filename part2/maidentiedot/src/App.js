@@ -15,11 +15,12 @@ function App() {
       setCountries(response.data)
     })
   }, [])
+  
 
   return (
     <div >
       <Filter filter={filter} setFilter={setFilter} countries={countries} found={found} setFound={setFound}/>
-      <Result found={found} />
+      <Result found={found} setFound={setFound} filter={filter} setFilter={setFilter} />
     </div>
   );
 }

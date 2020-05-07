@@ -1,6 +1,10 @@
 import React from 'react'
 
-const Found = ({found}) => {
+const Found = ({found, setFound, filter, setFilter}) => {
+
+    const changeFilter = (country, i) => {
+        console.log(country, i)
+    }
 
     if(found) {
 
@@ -10,12 +14,13 @@ const Found = ({found}) => {
 
         else if (found.length <10 && found.length > 1){
                 return(
-                        found.map(country => 
-                        <p key={country.name}>{country.name}</p>)
+                        found.map((country, i) => 
+                        <div key={i} ><p style={{width: "50%",display:"inline"}} key={country.name}>{country.name}</p><button onClick={(() => {setFound([found[i]]); setFilter(found[i].name); console.log(found)})} key={country.name + i}>show</button></div>)
                     )
             } 
 
         else if (found.length === 1) {
+ 
                 return (
                     <div>
                     <div>
