@@ -1,6 +1,7 @@
 import React from 'react'
+import Weather from './Weather'
 
-const Found = ({found, setFound, filter, setFilter}) => {
+const Found = ({found, setFound, filter, setFilter, weather, setWeather}) => {
 
 
 
@@ -13,12 +14,12 @@ const Found = ({found, setFound, filter, setFilter}) => {
         else if (found.length <10 && found.length > 1){
                 return(
                         found.map((country, i) => 
-                        <div key={i} ><p style={{width: "50%",display:"inline"}} key={country.name}>{country.name}</p><button onClick={(() => {setFound([found[i]]); setFilter(found[i].name); console.log(found)})} key={country.name + i}>show</button></div>)
+                        <div key={i} ><p style={{width: "50%",display:"inline"}} key={country.name}>{country.name}</p><button onClick={(() => {setFound([found[i]]); setFilter(found[i].name);})} key={country.name + i}>show</button></div>)
                     )
             } 
 
         else if (found.length === 1) {
- 
+            
                 return (
                     <div>
                     <div>
@@ -34,6 +35,10 @@ const Found = ({found, setFound, filter, setFilter}) => {
                 </div>
                 <div>
                     <img src={found[0].flag} width="50px" alt="flag"/>
+                </div>
+                <div>
+                    <h2>weather in {found[0].capital}</h2>
+                    <Weather found={found[0].name} weather={weather} setWeather={setWeather} />
                 </div>
             </div>
                 )
