@@ -2,9 +2,7 @@ import React from 'react'
 
 const Found = ({found, setFound, filter, setFilter}) => {
 
-    const changeFilter = (country, i) => {
-        console.log(country, i)
-    }
+
 
     if(found) {
 
