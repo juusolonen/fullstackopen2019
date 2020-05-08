@@ -9,6 +9,7 @@ function App() {
   const [ countries, setCountries ] = useState([])
   const [ found, setFound ] = useState(null)
   const [ weather, setWeather ] = useState(null)
+
  
   useEffect(()=> {
     Axios.get('https://restcountries.eu/rest/v2/all')
@@ -16,12 +17,7 @@ function App() {
       setCountries(response.data)
     })
   }, [])
-  useEffect(()=> {
-    Axios.get(`http://api.weatherstack.com/current?access_key=${process.env.REACT_APP_NOT_SECRET_CODE}&query=${found}`)
-    .then((response) => {
-        setWeather(response.data)
-    })
-  }, [])
+
   
 
   return (

@@ -1,9 +1,16 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import Axios from 'axios'
 
 const Weather = ({found, weather, setWeather}) => {
+    useEffect(()=> {
+        Axios.get(`http://api.weatherstack.com/current?access_key=${process.env.REACT_APP_NOT_SECRET_CODE}&query=${found}`)
+        .then((response) => {
+            if(response.data != weather) {
+              setWeather(response.data)
+            }
+        })
+      }, [])
 
-//tämä hakee liikaa uudestaan koska renderöityy aina kun tulos päivittyy, kai?
 
 
     if(weather) {
