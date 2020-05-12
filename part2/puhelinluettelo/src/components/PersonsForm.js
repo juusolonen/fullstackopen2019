@@ -1,5 +1,6 @@
 import React from 'react'
 import Axios from 'axios'
+import personService from '../services/personService'
 
 
 const PersonsForm = ({persons, newName, setNewName, newNumber, setNewNumber, setPersons}) => {
@@ -27,12 +28,13 @@ const PersonsForm = ({persons, newName, setNewName, newNumber, setNewNumber, set
           setNewName('');
           setNewNumber('');
         }else {
-          Axios.post('http://localhost:3001/persons', newPerson)
-            .then((response) => {
-              setPersons(persons.concat(response.data));
+          personService.addPerson(newPerson)
+            .then((addedPerson)=> {
+              setPersons(persons.concat(addedPerson));
               setNewName('');
               setNewNumber('');
             })
+
         }
       }
     
