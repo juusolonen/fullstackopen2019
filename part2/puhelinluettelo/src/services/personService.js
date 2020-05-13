@@ -16,5 +16,10 @@ const deletePerson = (id) => {
     return request
 }
 
+const updatePerson = (person, newPerson) => {
+    const request = Axios.put(`${baseUrl}/${person.id}`, newPerson)
+    return request.then((response) => response.data)
+}
 
-export default {getAllPersons, addPerson, deletePerson}
+
+export default {getAllPersons, addPerson, deletePerson, updatePerson}

@@ -24,7 +24,15 @@ const PersonsForm = ({persons, newName, setNewName, newNumber, setNewNumber, set
         const nameFound = (persons.find(person => person.name === newPerson.name))
     
         if(nameFound) {
-          window.alert(`${newPerson.name} is already added to the phonebook`)
+         if (window.confirm(`${newPerson.name} is already added to the phonebook, replace the old number with the new one?`)){
+           personService.updatePerson(nameFound, newPerson)
+            .then((response) => 
+            personService
+            .getAllPersons()
+              .then(allPersons => {
+                setPersons(allPersons)
+              }))
+         }
           setNewName('');
           setNewNumber('');
         }else {
