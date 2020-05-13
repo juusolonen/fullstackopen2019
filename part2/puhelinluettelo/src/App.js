@@ -4,6 +4,7 @@ import PersonsForm from './components/PersonsForm'
 import Persons from './components/Persons'
 import personService from './services/personService'
 import Message from './components/Message'
+import Error from './components/Error'
 
 const App = () => {
   const [persons, setPersons] = useState([])
@@ -11,6 +12,7 @@ const App = () => {
   const [ newNumber, setNewNumber] = useState('')
   const [ filter, setFilter ] = useState('')
   const [ message, setMessage ] = useState('')
+  const [ error, setError ] = useState('')
 
   useEffect(() => {
     personService
@@ -25,9 +27,10 @@ const App = () => {
     <div style={{width: "50%", margin: "auto"}}>
       <h2>Phonebook</h2>
       <Message message={message}/>
+      <Error error={error}/>
       <Filter filter={filter} setFilter={setFilter} persons={persons} setPersons={setPersons} />
       <h2>add a new</h2>
-      <PersonsForm message={message} persons={persons} newName={newName} setNewName={setNewName} newNumber={newNumber} setNewNumber={setNewNumber} setPersons={setPersons} setMessage={setMessage} />
+      <PersonsForm setError={setError}  message={message} persons={persons} newName={newName} setNewName={setNewName} newNumber={newNumber} setNewNumber={setNewNumber} setPersons={setPersons} setMessage={setMessage} />
       <h2>Numbers</h2>
       <Persons setMessage={setMessage} persons={persons} setPersons={setPersons}/>
       

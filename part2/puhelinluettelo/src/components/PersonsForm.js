@@ -3,7 +3,7 @@ import Axios from 'axios'
 import personService from '../services/personService'
 
 
-const PersonsForm = ({setMessage, persons, newName, setNewName, newNumber, setNewNumber, setPersons}) => {
+const PersonsForm = ({setError, setMessage, persons, newName, setNewName, newNumber, setNewNumber, setPersons}) => {
 
     const handleNewName = (event) => {
         setNewName(event.target.value)
@@ -36,6 +36,12 @@ const PersonsForm = ({setMessage, persons, newName, setNewName, newNumber, setNe
                   setMessage('')
                 }, 5000)
               }))
+            .catch((error) => {
+              setError(`Information of ${nameFound.name} has already been deleted`)
+              setTimeout(() => {
+                setError('')
+              }, 5000)
+            })
          }
           setNewName('');
           setNewNumber('');
