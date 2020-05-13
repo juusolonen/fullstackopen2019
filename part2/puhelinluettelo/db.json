@@ -2,13 +2,18 @@
   "persons": [
     {
       "name": "Arto Hellas",
-      "number": "12345678",
+      "number": "87654321",
       "id": 1
     },
     {
       "name": "Juuso",
-      "number": "0501234567",
+      "number": "54",
       "id": 2
+    },
+    {
+      "name": "Joku",
+      "number": "541561",
+      "id": 3
     }
   ]
 }

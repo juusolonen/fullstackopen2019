@@ -3,7 +3,7 @@ import Axios from 'axios'
 import personService from '../services/personService'
 
 
-const PersonsForm = ({persons, newName, setNewName, newNumber, setNewNumber, setPersons}) => {
+const PersonsForm = ({setMessage, persons, newName, setNewName, newNumber, setNewNumber, setPersons}) => {
 
     const handleNewName = (event) => {
         setNewName(event.target.value)
@@ -31,6 +31,10 @@ const PersonsForm = ({persons, newName, setNewName, newNumber, setNewNumber, set
             .getAllPersons()
               .then(allPersons => {
                 setPersons(allPersons)
+                setMessage(`Changed ${nameFound.name}`)
+                setTimeout(() => {
+                  setMessage('')
+                }, 5000)
               }))
          }
           setNewName('');
@@ -39,6 +43,10 @@ const PersonsForm = ({persons, newName, setNewName, newNumber, setNewNumber, set
           personService.addPerson(newPerson)
             .then((addedPerson)=> {
               setPersons(persons.concat(addedPerson));
+              setMessage(`Added ${addedPerson.name}`)
+              setTimeout(() => {
+                setMessage('')
+              }, 5000)
               setNewName('');
               setNewNumber('');
             })
