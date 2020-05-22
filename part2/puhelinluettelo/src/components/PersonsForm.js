@@ -47,9 +47,9 @@ const PersonsForm = ({setError, setMessage, persons, newName, setNewName, newNum
           setNewNumber('');
         }else {
           personService.addPerson(newPerson)
-            .then((addedPerson)=> {
-              setPersons(persons.concat(addedPerson));
-              setMessage(`Added ${addedPerson.name}`)
+            .then((newPersons)=> {
+              setPersons(newPersons);
+              setMessage(`Added ${newPerson.name}`)
               setTimeout(() => {
                 setMessage('')
               }, 5000)
