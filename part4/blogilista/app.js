@@ -3,6 +3,7 @@ const express = require('express')
 const app = express()
 const cors = require('cors')
 const mongoose = require('mongoose')
+const Blog = require('./models/blog')
 
 
 
@@ -12,16 +13,6 @@ mongoose.connect(mongoUrl, { useNewUrlParser: true, useUnifiedTopology: true})
     console.log("Yhteys luotu")
   })
   .catch(err => console.log(err))
-
-const blogSchema = new mongoose.Schema({
-  title: String,
-  author: String,
-  url: String,
-  likes: Number
-})
-
-const Blog = mongoose.model('Blog', blogSchema)
-
 
 
 app.use(cors())
