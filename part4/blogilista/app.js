@@ -1,9 +1,7 @@
-const http = require('http')
 const express = require('express')
 const app = express()
 const cors = require('cors')
 const mongoose = require('mongoose')
-const Blog = require('./models/blog')
 const config = require('./utils/config')
 const blogsRouter = require('./controllers/blogs')
 
@@ -20,7 +18,4 @@ app.use(express.json())
 
 app.use('/api/blogs', blogsRouter)
 
-
-app.listen(config.PORT, () => {
-  console.log(`Server running on port ${config.PORT}`)
-})
+module.exports = app
