@@ -4,10 +4,11 @@ const app = express()
 const cors = require('cors')
 const mongoose = require('mongoose')
 const Blog = require('./models/blog')
+const config = require('./utils/config')
 
 
 
-const mongoUrl = 'mongodb+srv://juusokayttaja2:kayttaja123@cluster0-ljqfc.mongodb.net/puhelinluettelo?retryWrites=true&w=majority'
+const mongoUrl = config.MONGODB_URI
 mongoose.connect(mongoUrl, { useNewUrlParser: true, useUnifiedTopology: true})
   .then(result => {
     console.log("Yhteys luotu")
@@ -36,7 +37,7 @@ app.post('/api/blogs', (request, response) => {
     })
 })
 
-const PORT = 3003
+const PORT = config.PORT
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`)
 })
