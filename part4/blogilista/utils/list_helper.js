@@ -17,6 +17,7 @@ const favoriteBlog = (blogs) => {
 }
 
 const mostBlogs = (blogs) => {
+if(blogs.length > 0) {
   const authors =  _.countBy(blogs, 'author')
   const authorArray = _.toPairs(authors)
   const newAuthorArray = _.transform(authorArray, (result, input) => {
@@ -30,6 +31,9 @@ const mostBlogs = (blogs) => {
     return _.maxBy(newAuthorArray, (blog) => {
         return blog.blogs
     })
+} else {
+    return 0
+}
 
 }
   

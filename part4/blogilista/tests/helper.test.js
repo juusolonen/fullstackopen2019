@@ -113,7 +113,17 @@ describe('most blogs', () => {
 
   test('should return author with most blogs', () => {
     const result = listHelper.mostBlogs(blogs)
-    expect(result).toEqual({"author": "Robert C. Martin", "blogs": 3})
+    expect(result).toEqual({author: "Robert C. Martin", blogs: 3})
+  })
+
+  test('from list of single author should return that author', () => {
+    const result = listHelper.mostBlogs(listWithOneBlog)
+    expect(result).toEqual({author: "Michael Chan", blogs: 1})
+  })
+
+  test('from empty list should return zero', () => {
+    const result = listHelper.mostBlogs([])
+    expect(result).toEqual(0)
   })
 
 })
