@@ -8,7 +8,10 @@ const blogsRouter = require('./controllers/blogs')
 
 mongoose.connect(config.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true})
   .then(result => {
-    console.log("Yhteys luotu")
+    if(process.env.NODE_ENV !== 'test') {
+      console.log("Yhteys luotu")
+    }
+
   })
   .catch(err => console.log(err))
 

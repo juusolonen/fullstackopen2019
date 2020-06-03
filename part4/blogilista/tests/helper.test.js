@@ -142,7 +142,7 @@ describe('most likes', () => {
 
   test('empty list should return null', () => {
     const result = listHelper.mostLikes([])
-    expect(result).toEqual(null)
+    expect(result).toBeNull()
   })
 
 

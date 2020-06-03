@@ -47,6 +47,8 @@ const mostLikes = (blogs) => {
     _.forEach(author, (auth) => {
       likes.push(_.sumBy(blogsByAuthor[auth], 'likes'))
     })
+
+    
     return {
         author: author[_.indexOf(likes, _.max(likes))],
         likes: _.max(likes)
