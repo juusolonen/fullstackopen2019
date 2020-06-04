@@ -75,9 +75,29 @@ test('if likes is not assigned a value it will be 0', async () => {
 
     expect(response.body[response.body.length - 1].likes).toBeDefined()
     expect(response.body[response.body.length - 1].likes).toBeGreaterThanOrEqual(0)
-
 })
 
+test('if new blog does not contain url will get response code 400', async () => {
+    await api
+    .post('/api/blogs')
+    .send(    {
+        title: "testi2",
+        author: "testi2",
+        likes: 0
+        })
+    .expect(400)
+})
+
+test('if new blog does not contain title will get response code 400', async () => {
+    await api
+    .post('/api/blogs')
+    .send(    {
+        author: "testi2",
+        likes: 0,
+        url: "testi2"
+        })
+    .expect(400)
+})
 
 afterAll(() => {
     mongoose.connection.close()
