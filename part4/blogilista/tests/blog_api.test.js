@@ -3,6 +3,8 @@ const supertest = require('supertest')
 const app = require('../app')
 const Blog = require('../models/blog')
 
+mongoose.set('useFindAndModify', false);
+
 const initialBlogs = [
     {
     title: "testi1",
@@ -97,6 +99,20 @@ test('if new blog does not contain title will get response code 400', async () =
         url: "testi2"
         })
     .expect(400)
+})
+
+test('blog can be deleted', async () => {
+    const blogsAtStart = await api.get('/api/blogs')
+    const blogToDelete = blogsAtStart.body[blogsAtStart.body.length -1]
+
+    await api
+      .delete(`/api/blogs/${blogToDelete.id}`)
+      .expect(204)
+
+    const afterDelete = await api.get('/api/blogs')
+
+    expect(afterDelete.body).toHaveLength(blogsAtStart.body.length -1)
+
 })
 
 afterAll(() => {

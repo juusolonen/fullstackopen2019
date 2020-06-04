@@ -11,7 +11,7 @@ blogsRouter.get('/', async (request, response) => {
 
   })
 
-  blogsRouter.post('/', async (request, response) => {
+  blogsRouter.post('/', async (request, response, next) => {
     const blog = new Blog(request.body)
     if (!blog.likes) {blog.likes = 0}
     if (!blog.url || !blog.title) {
@@ -25,7 +25,17 @@ blogsRouter.get('/', async (request, response) => {
       next(excp)
     }
 
-      
+  })
+
+  blogsRouter.delete('/:id', async (req, res, next) => {
+  try{
+    await Blog.findByIdAndRemove(req.params.id)
+    res.status(204).end()
+  } catch(exception) {
+    next(exception)
+  }
+
+
   })
 
   module.exports = blogsRouter
