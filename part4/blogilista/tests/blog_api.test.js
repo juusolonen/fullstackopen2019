@@ -61,6 +61,23 @@ test('blogs can be added', async () => {
     expect(blogTitles).toContain('testi2')
 })
 
+test('if likes is not assigned a value it will be 0', async () => {
+    await api
+    .post('/api/blogs')
+    .send(    {
+        title: "testi2",
+        author: "testi2",
+        url: "testiurl2"
+        })
+    .expect(201)
+
+    const response = await api.get('/api/blogs')
+
+    expect(response.body[response.body.length - 1].likes).toBeDefined()
+    expect(response.body[response.body.length - 1].likes).toBeGreaterThanOrEqual(0)
+
+})
+
 
 afterAll(() => {
     mongoose.connection.close()
