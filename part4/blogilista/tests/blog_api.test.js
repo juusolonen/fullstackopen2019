@@ -115,6 +115,32 @@ test('blog can be deleted', async () => {
 
 })
 
+test('blog can be updated', async () => {
+
+    const allBlogs = await api.get('/api/blogs')
+    const blogToUpdate = allBlogs.body[allBlogs.body.length -1]
+
+    await api
+    .put(`/api/blogs/${blogToUpdate.id}`)
+    .send({
+        author: "testi2",
+        likes: 66666,
+        url: "testi2"
+        })
+    .expect(200)
+})
+
+test('updated blog returns the new db entry', async ( ) => {
+
+    const allBlogs = await api.get('/api/blogs')
+    const blogToUpdate = allBlogs.body[allBlogs.body.length -1]
+
+    const resp = await api.put(`/api/blogs/${blogToUpdate.id}`)
+
+    expect(resp.body).toEqual(blogToUpdate)
+
+})
+
 afterAll(() => {
     mongoose.connection.close()
 })

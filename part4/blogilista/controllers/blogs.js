@@ -35,6 +35,16 @@ blogsRouter.get('/', async (request, response) => {
     next(exception)
   }
 
+  blogsRouter.put('/:id', async (req, res, next) => {
+    try {
+     const resp = await Blog.findByIdAndUpdate(req.params.id, req.body, {new: true})
+      res.status(200).json(resp)
+    } catch(exception) {
+      next(exception)
+    }
+
+  })
+
 
   })
 
