@@ -4,6 +4,17 @@ const User = require('../models/user')
 
 usersRouter.post('/', async (req, res) => {
 
+    if(!req.body.username) {
+       return res.status(400).json({error: 'missing username'})
+    }
+    if(!req.body.pwd) {
+        return res.status(400).json({error: 'missing password'})
+    }
+    if(req.body.pwd.length < 3) {
+        return res.status(400).json({error: 'password must have at least 3 characters'})
+    }
+
+
     const rounds = 10
     const passwordHash = await bcrypt.hash(req.body.pwd, rounds)
 
@@ -13,9 +24,14 @@ usersRouter.post('/', async (req, res) => {
         passwordHash
     })
 
-    const savedUser = await user.save()
+    try {
+        const savedUser = await user.save()
 
-    res.json(savedUser)
+        res.json(savedUser)
+    } catch(excp) {
+        res.status(400).json(excp.message)
+    }
+
 })
 
 usersRouter.get('/', async (req, res) => {

@@ -2,8 +2,10 @@ const mongoose = require('mongoose')
 const supertest = require('supertest')
 const app = require('../app')
 const Blog = require('../models/blog')
+const User = require('../models/user')
 
 mongoose.set('useFindAndModify', false);
+mongoose.set('useCreateIndex', true);
 
 const initialBlogs = [
     {
@@ -23,32 +25,44 @@ const initialBlogs = [
 beforeAll(async () => {
     await Blog.deleteMany({})
     await Blog.insertMany(initialBlogs)
+    await User.deleteMany({})
+    await User.insertMany({
+        username: "testijuuso",
+        name: "juuso",
+        pwd: "password"
+    })
 })
 
 const api = supertest(app)
 
 
+describe('blogs', () => {
 
-test('all blogs are returned', async () => {
+
+test('are returned', async () => {
     const response = await api.get('/api/blogs')
 
     expect(response.body).toHaveLength(2)
 })
 
-test('blogs are returned as json', async () => {
+test('are returned as json', async () => {
     await api
       .get('/api/blogs')
       .expect(200)
       .expect('Content-type', /application\/json/)
 })
 
-test('blog identifying field is called id', async () => {
+test('are returned with identifying field called id', async () => {
     const response = await api.get('/api/blogs')
 
     expect(response.body[0].id).toBeDefined()
 })
 
-test('blogs can be added', async () => {
+})
+
+describe('adding blogs', () => {
+
+test('works', async () => {
     await api
     .post('/api/blogs')
     .send(initialBlogs[1])
@@ -63,7 +77,7 @@ test('blogs can be added', async () => {
     expect(blogTitles).toContain('testi2')
 })
 
-test('if likes is not assigned a value it will be 0', async () => {
+test('without likes will be assigned 0 likes', async () => {
     await api
     .post('/api/blogs')
     .send(    {
@@ -76,10 +90,10 @@ test('if likes is not assigned a value it will be 0', async () => {
     const response = await api.get('/api/blogs')
 
     expect(response.body[response.body.length - 1].likes).toBeDefined()
-    expect(response.body[response.body.length - 1].likes).toBeGreaterThanOrEqual(0)
+    expect(response.body[response.body.length - 1].likes).toBe(0)
 })
 
-test('if new blog does not contain url will get response code 400', async () => {
+test('without url will get response code 400', async () => {
     await api
     .post('/api/blogs')
     .send(    {
@@ -90,7 +104,7 @@ test('if new blog does not contain url will get response code 400', async () => 
     .expect(400)
 })
 
-test('if new blog does not contain title will get response code 400', async () => {
+test('without title will get response code 400', async () => {
     await api
     .post('/api/blogs')
     .send(    {
@@ -101,7 +115,11 @@ test('if new blog does not contain title will get response code 400', async () =
     .expect(400)
 })
 
-test('blog can be deleted', async () => {
+})
+
+describe('blog can', () => {
+
+test('be deleted', async () => {
     const blogsAtStart = await api.get('/api/blogs')
     const blogToDelete = blogsAtStart.body[blogsAtStart.body.length -1]
 
@@ -115,7 +133,7 @@ test('blog can be deleted', async () => {
 
 })
 
-test('blog can be updated', async () => {
+test('be updated', async () => {
 
     const allBlogs = await api.get('/api/blogs')
     const blogToUpdate = allBlogs.body[allBlogs.body.length -1]
@@ -130,7 +148,7 @@ test('blog can be updated', async () => {
     .expect(200)
 })
 
-test('updated blog returns the new db entry', async ( ) => {
+test('be updated and will return new db entry', async ( ) => {
 
     const allBlogs = await api.get('/api/blogs')
     const blogToUpdate = allBlogs.body[allBlogs.body.length -1]
@@ -138,6 +156,72 @@ test('updated blog returns the new db entry', async ( ) => {
     const resp = await api.put(`/api/blogs/${blogToUpdate.id}`)
 
     expect(resp.body).toEqual(blogToUpdate)
+
+})
+
+})
+
+describe('creating a new user', () => {
+
+
+
+test('fails is user already exists', async () => {
+    const usersAtStart = await api.get('/api/users')
+
+    const newUser = {
+        username: "testijuuso",
+        name: "juuso",
+        pwd: "password"
+    }
+
+    const result = await api
+                    .post('/api/users')
+                    .send(newUser)
+                    .expect(400)
+
+    const usersAtEnd = await api.get('/api/users')
+
+    expect(result.body).toContain('`username` to be unique')
+    expect(usersAtEnd.body).toHaveLength(usersAtStart.body.length)
+})
+
+test('fails without password', async () => {
+    const usersAtStart = await api.get('/api/users')
+
+    const newUser = {
+        username: "testijuuso",
+        name: "juuso"
+    }
+
+    const result = await api
+    .post('/api/users')
+    .send(newUser)
+    .expect(400)
+
+    const usersAtEnd = await api.get('/api/users')
+
+    expect(result.body.error).toContain('missing password')
+    expect(usersAtEnd.body).toHaveLength(usersAtStart.body.length)
+})
+
+test('fails without username', async () => {
+    const usersAtStart = await api.get('/api/users')
+
+    const newUser = {
+        name: "juuso",
+        password: "password"
+    }
+
+    const result = await api
+    .post('/api/users')
+    .send(newUser)
+    .expect(400)
+
+    const usersAtEnd = await api.get('/api/users')
+
+    expect(result.body.error).toContain('missing username')
+    expect(usersAtEnd.body).toHaveLength(usersAtStart.body.length)
+})
 
 })
 
