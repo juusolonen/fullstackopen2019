@@ -51,12 +51,26 @@ blogsRouter.get('/', async (request, response) => {
   })
 
   blogsRouter.delete('/:id', async (req, res, next) => {
+
+    if(!req.token) {return res.status(401).json({error: 'not authorized'})}
+    
   try{
-    await Blog.findByIdAndRemove(req.params.id)
-    res.status(204).end()
+    const decoded = jwt.verify(req.token, process.env.SECRET)
+    const blog = await Blog.findById(req.params.id)
+      
+      if(decoded.id === blog.user.toString()) {
+      
+        await Blog.deleteOne(blog)
+          return res.status(204).end()
+      } else {
+        return res.status(401).json({error: 'not authorized'})
+      }
+
   } catch(exception) {
-    next(exception)
+  
+    return res.status(500).json({error: exception.message})
   }
+})
 
   blogsRouter.put('/:id', async (req, res, next) => {
     try {
@@ -69,6 +83,6 @@ blogsRouter.get('/', async (request, response) => {
   })
 
 
-  })
+  
 
   module.exports = blogsRouter
