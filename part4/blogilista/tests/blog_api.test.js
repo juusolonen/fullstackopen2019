@@ -3,7 +3,6 @@ const supertest = require('supertest')
 const app = require('../app')
 const Blog = require('../models/blog')
 const User = require('../models/user')
-const jwt = require('jsonwebtoken')
 
 mongoose.set('useFindAndModify', false);
 mongoose.set('useCreateIndex', true);
@@ -23,11 +22,15 @@ const initialBlogs = [
     },
 ]
 
-
-
 beforeAll(async () => {
     await Blog.deleteMany({})
     await Blog.insertMany(initialBlogs)
+    await User.deleteMany({})
+    await User.insertMany({
+        username: "testijuuso",
+        name: "juuso",
+        pwd: "password"
+    })
 })
 
 const api = supertest(app)
@@ -59,70 +62,24 @@ test('are returned with identifying field called id', async () => {
 
 describe('adding blogs', () => {
 
-  /*  const cred = {
-        username: "testijuuso2",
-        password: "password"
-    }
-*/
-
-const testi3 = {
-    title: "testi3",
-    author: "testi3",
-    url: "testiurl3",
-    likes: 3
-    }
-   const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3RpanV1c28yIiwibmFtZSI6Imp1dXNvIiwiaWQiOiI1ZWRlMGI5ODNkMDU1ZDNlM2MzMTk1M2UiLCJpYXQiOjE1OTE2MTAzMzV9.9Q6BdMO-ijncy9h5N742cJ-voxhid9LVxjtS7sLCfqc'
-
-test('without a token fails and returns 401', async () => {
-
-    const blogsAtStart = await api.get('/api/blogs')
-
+test('works', async () => {
     await api
     .post('/api/blogs')
-    .send(testi3)
-    .expect(401)
+    .send(initialBlogs[1])
+    .expect(201)
 
-    const blogsAtEnd = await api.get('/api/blogs')
-
-    expect(blogsAtEnd.body).toHaveLength(blogsAtStart.body.length)
-
-})
-
-test('works', async () => {
- /* const login = await api.post('/api/users')
-                    .send({        username: "testijuuso2",
-                    name: "juuso",
-                    pwd: "password"})
-
-    console.log(login.body)*/
-
-   // const loggedIn = await api.post('/api/login')
-                               //.send(cred)
-
-  // console.log(loggedIn.body)
-
-   
-   // console.log(jwt.verify(token, process.env.SECRET))
-
-
-
-  await api
-    .post('/api/blogs')
-    .send(testi3)
-    .set('Authorization', `Bearer ${token}`)
-      
+    
     const response = await api.get('/api/blogs')
 
     const blogTitles = response.body.map(blog => blog.title)
 
     expect(response.body).toHaveLength(initialBlogs.length + 1)
-    expect(blogTitles).toContain('testi3')
+    expect(blogTitles).toContain('testi2')
 })
 
 test('without likes will be assigned 0 likes', async () => {
     await api
     .post('/api/blogs')
-    .set('Authorization', `Bearer ${token}`)
     .send(    {
         title: "testi2",
         author: "testi2",
@@ -139,7 +96,6 @@ test('without likes will be assigned 0 likes', async () => {
 test('without url will get response code 400', async () => {
     await api
     .post('/api/blogs')
-    .set('Authorization', `Bearer ${token}`)
     .send(    {
         title: "testi2",
         author: "testi2",
@@ -151,7 +107,6 @@ test('without url will get response code 400', async () => {
 test('without title will get response code 400', async () => {
     await api
     .post('/api/blogs')
-    .set('Authorization', `Bearer ${token}`)
     .send(    {
         author: "testi2",
         likes: 0,
@@ -164,29 +119,12 @@ test('without title will get response code 400', async () => {
 
 describe('blog can', () => {
 
-    const testi3 = {
-        title: "testi3",
-        author: "testi3",
-        url: "testiurl3",
-        likes: 3
-        }
-
-    const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3RpanV1c28yIiwibmFtZSI6Imp1dXNvIiwiaWQiOiI1ZWRlMGI5ODNkMDU1ZDNlM2MzMTk1M2UiLCJpYXQiOjE1OTE2MTAzMzV9.9Q6BdMO-ijncy9h5N742cJ-voxhid9LVxjtS7sLCfqc'
-
 test('be deleted', async () => {
-
-    await api
-    .post('/api/blogs')
-    .send(testi3)
-    .set('Authorization', `Bearer ${token}`)
-
     const blogsAtStart = await api.get('/api/blogs')
     const blogToDelete = blogsAtStart.body[blogsAtStart.body.length -1]
-   
 
     await api
       .delete(`/api/blogs/${blogToDelete.id}`)
-      .set('Authorization', `Bearer ${token}`)
       .expect(204)
 
     const afterDelete = await api.get('/api/blogs')
@@ -216,12 +154,6 @@ test('be updated and will return new db entry', async ( ) => {
     const blogToUpdate = allBlogs.body[allBlogs.body.length -1]
 
     const resp = await api.put(`/api/blogs/${blogToUpdate.id}`)
-                            .send({
-                                author: "testi2",
-                                likes: 66666,
-                                url: "testi2"
-                                })
-                            .expect(200)
 
     expect(resp.body).toEqual(blogToUpdate)
 

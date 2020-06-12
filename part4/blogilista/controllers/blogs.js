@@ -18,14 +18,10 @@ blogsRouter.get('/', async (request, response) => {
   })
 
   blogsRouter.post('/', async (request, response, next) => {
-
-    if(!request.token) {
-      return response.status(401).json({error: 'token is missing or not valid'})
-    }
    
     const decoded = jwt.verify(request.token, process.env.SECRET)
 
-    if(!decoded.id) {
+    if(!decoded || !decoded.id) {
       return response.status(401).json({error: 'token is missing or not valid'})
     }
 
@@ -79,7 +75,6 @@ blogsRouter.get('/', async (request, response) => {
   blogsRouter.put('/:id', async (req, res, next) => {
     try {
      const resp = await Blog.findByIdAndUpdate(req.params.id, req.body, {new: true})
-     .populate('user', {username: 1, name: 1, id: 1})
       res.status(200).json(resp)
     } catch(exception) {
       next(exception)
