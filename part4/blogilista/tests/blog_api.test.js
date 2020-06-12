@@ -1,9 +1,17 @@
+<<<<<<< HEAD
 /* eslint-disable no-undef */
 /* eslint-disable linebreak-style */
 const mongoose = require("mongoose")
 const supertest = require("supertest")
 const app = require("../app")
 const Blog = require("../models/blog")
+=======
+const mongoose = require('mongoose')
+const supertest = require('supertest')
+const app = require('../app')
+const Blog = require('../models/blog')
+const User = require('../models/user')
+>>>>>>> 0269b3cc8d4c7cef95d7964c3dd83d3559b3a9a3
 
 
 mongoose.set("useFindAndModify", false)
@@ -24,11 +32,15 @@ const initialBlogs = [
     },
 ]
 
-
-
 beforeAll(async () => {
     await Blog.deleteMany({})
     await Blog.insertMany(initialBlogs)
+    await User.deleteMany({})
+    await User.insertMany({
+        username: "testijuuso",
+        name: "juuso",
+        pwd: "password"
+    })
 })
 
 const api = supertest(app)
@@ -60,6 +72,7 @@ describe("blogs", () => {
 
 describe("adding blogs", () => {
 
+<<<<<<< HEAD
     /*  const cred = {
         username: "testijuuso2",
         password: "password"
@@ -160,11 +173,66 @@ describe("adding blogs", () => {
             })
             .expect(400)
     })
+=======
+test('works', async () => {
+    await api
+    .post('/api/blogs')
+    .send(initialBlogs[1])
+    .expect(201)
+
+    
+    const response = await api.get('/api/blogs')
+
+    const blogTitles = response.body.map(blog => blog.title)
+
+    expect(response.body).toHaveLength(initialBlogs.length + 1)
+    expect(blogTitles).toContain('testi2')
+})
+
+test('without likes will be assigned 0 likes', async () => {
+    await api
+    .post('/api/blogs')
+    .send(    {
+        title: "testi2",
+        author: "testi2",
+        url: "testiurl2"
+        })
+    .expect(201)
+
+    const response = await api.get('/api/blogs')
+
+    expect(response.body[response.body.length - 1].likes).toBeDefined()
+    expect(response.body[response.body.length - 1].likes).toBe(0)
+})
+
+test('without url will get response code 400', async () => {
+    await api
+    .post('/api/blogs')
+    .send(    {
+        title: "testi2",
+        author: "testi2",
+        likes: 0
+        })
+    .expect(400)
+})
+
+test('without title will get response code 400', async () => {
+    await api
+    .post('/api/blogs')
+    .send(    {
+        author: "testi2",
+        likes: 0,
+        url: "testi2"
+        })
+    .expect(400)
+})
+>>>>>>> 0269b3cc8d4c7cef95d7964c3dd83d3559b3a9a3
 
 })
 
 describe("blog can", () => {
 
+<<<<<<< HEAD
     const testi3 = {
         title: "testi3",
         author: "testi3",
@@ -189,6 +257,15 @@ describe("blog can", () => {
             .delete(`/api/blogs/${blogToDelete.id}`)
             .set("Authorization", `Bearer ${token}`)
             .expect(204)
+=======
+test('be deleted', async () => {
+    const blogsAtStart = await api.get('/api/blogs')
+    const blogToDelete = blogsAtStart.body[blogsAtStart.body.length -1]
+
+    await api
+      .delete(`/api/blogs/${blogToDelete.id}`)
+      .expect(204)
+>>>>>>> 0269b3cc8d4c7cef95d7964c3dd83d3559b3a9a3
 
         const afterDelete = await api.get("/api/blogs")
 
@@ -216,6 +293,7 @@ describe("blog can", () => {
         const allBlogs = await api.get("/api/blogs")
         const blogToUpdate = allBlogs.body[allBlogs.body.length -1]
 
+<<<<<<< HEAD
         const resp = await api.put(`/api/blogs/${blogToUpdate.id}`)
             .send({
                 author: "testi2",
@@ -223,6 +301,9 @@ describe("blog can", () => {
                 url: "testi2"
             })
             .expect(200)
+=======
+    const resp = await api.put(`/api/blogs/${blogToUpdate.id}`)
+>>>>>>> 0269b3cc8d4c7cef95d7964c3dd83d3559b3a9a3
 
         expect(resp.body).toEqual(blogToUpdate)
 
