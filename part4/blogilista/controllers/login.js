@@ -3,13 +3,8 @@ const User = require("../models/user")
 const bcrypt = require("bcrypt")
 const jwt = require("jsonwebtoken")
 
-<<<<<<< HEAD
 loginRouter.post("/", async (req, res) => {
     console.log(req.body)
-=======
-loginRouter.post('/', async (req, res) => {
-
->>>>>>> 0269b3cc8d4c7cef95d7964c3dd83d3559b3a9a3
     const user = await User.findOne({username: req.body.username})
 
     if(user) {

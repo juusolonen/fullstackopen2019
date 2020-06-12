@@ -1,0 +1,29 @@
+.App {
+  text-align: center;
+  margin: auto;
+}
+
+.loginform, .create {
+  width: 50%;
+  margin: auto;
+  margin-bottom: 3rem;
+}
+.blog {
+  text-align: left;
+}
+
+.message p{
+  color: green;
+}
+
+.message {
+  border: 10px dotted green;
+}
+
+.error {
+  border: 10px double red;
+}
+
+.error p {
+  color: red;
+}
