@@ -1,6 +1,6 @@
 import React from 'react'
 const Blog = ({ blog }) => (
-  <div className="blog">
+  <div>
     {blog.title} {blog.author}
   </div>
 )
