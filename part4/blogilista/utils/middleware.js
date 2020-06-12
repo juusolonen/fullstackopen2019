@@ -1,8 +1,8 @@
 const tokenExtractor = (req, res, next) => {
    
-    const auth = req.get('authorization')
+    const auth = req.get("authorization")
 
-    if(auth && auth.startsWith('Bearer ')) {
+    if(auth && auth.startsWith("Bearer ")) {
         req.token = auth.substring(7)
     }
 
