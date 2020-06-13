@@ -12,7 +12,7 @@ const App = () => {
   useEffect(() => {
     blogService.getAll().then(blogs =>
       setBlogs( blogs )
-    )  
+    )
   }, [])
 
   useEffect(() => {
@@ -25,7 +25,7 @@ const App = () => {
 
   return (
     <div className='App'>
-     {!user && <Login setUser={setUser} />} 
+      {!user && <Login setUser={setUser} />}
       {user &&  <><h2>blogs</h2> <Usertable setBlogs={setBlogs} setUser={setUser} user={user} blogs={blogs} /> </>}
     </div>
   )
