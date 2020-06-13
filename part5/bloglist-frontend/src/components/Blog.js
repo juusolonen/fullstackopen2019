@@ -24,6 +24,7 @@ const Blog = ({token, user, setBlogs, blog }) => {
         await BlogService.removeBlog(token, blog.id)
         const blogs = await BlogService.getAll()
         setBlogs(blogs)
+        console.log('removed')
       }
      }
   
