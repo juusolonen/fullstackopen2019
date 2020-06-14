@@ -34,9 +34,9 @@ const CreateForm = ({ messageTitle, setMessageTitle, setShowForm, setBlogs, toke
       <div className="create">
         <h2>create new</h2>
         <form onSubmit={createNew}>
-               title:<input type="text" value={title} onChange={({ target }) => {setTitle(target.value)}}/> <br/>
-               author:<input type="text" value={author} onChange={({ target }) => {setAuthor(target.value)}}/><br/>
-               url:<input type="text" value={url} onChange={({ target }) => {setUrl(target.value)}}/><br/>
+               title:<input type="text" id="title" value={title} onChange={({ target }) => {setTitle(target.value)}}/> <br/>
+               author:<input type="text" id="author" value={author} onChange={({ target }) => {setAuthor(target.value)}}/><br/>
+               url:<input type="text" id="url" value={url} onChange={({ target }) => {setUrl(target.value)}}/><br/>
           <button type="submit">create</button> <br/>
           <button onClick={() => setShowForm(false)}>cancel</button>
         </form>
