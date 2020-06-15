@@ -33,10 +33,10 @@ const Login = ({ setUser }) => {
       {error && <Message error={error} />}
       <form>
                 username
-        <input type="text" value={username} onChange={({ target }) => setUsername(target.value)}></input> <br/>
+        <input type="text" id="username" value={username} onChange={({ target }) => setUsername(target.value)}></input> <br/>
                 password
-        <input type="password" value={password} onChange={({ target }) => setPassword(target.value)} ></input> <br/>
-        <button onClick={log}>login</button>
+        <input type="password" id="password" value={password} onChange={({ target }) => setPassword(target.value)} ></input> <br/>
+        <button id="loginbtn" onClick={log}>login</button>
       </form>
     </div>
   )

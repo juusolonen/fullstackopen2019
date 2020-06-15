@@ -2,6 +2,7 @@ import React from 'react'
 import '@testing-library/jest-dom/extend-expect'
 import { render, fireEvent } from '@testing-library/react'
 import Blog from './Blog'
+// eslint-disable-next-line no-unused-vars
 import CreateForm from './CreateForm'
 
 describe('<Blog />', () => {

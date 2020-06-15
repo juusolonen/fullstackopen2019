@@ -41,7 +41,7 @@ const Blog = ({ token, user, setBlogs, blog }) => {
     <div className="blog">
       <p className="title" onClick={() => setShowAll(!showAll)}>{blog.title}</p><br/>
       <p>{blog.url}</p><br/>
-      <p>likes {blog.likes}</p> <button className="likebutton" onClick={() => addLike(blog)}>like..</button><br/>
+      <p id="likes">likes {blog.likes}</p> <button className="likebutton" onClick={() => addLike(blog)}>like..</button><br/>
       <p>{blog.author}</p> <br/>
       {user === blog.user.username && <button className="removebutton" onClick={() => removeBlog(blog)}>remove</button>}
     </div>
